@@ -31,16 +31,14 @@ class Thesis:
 
     def __init__(
         self,
-        api_key: Optional[str],
+        api_key: str,
         base_url: str = os.getenv("THESIS_BASE_URL", "https://app-be.thesis.io"),
-        user_agent: Optional[str] = None,
     ):
         """Initialize the Thesis client with the provided API key and optional base URL and user agent.
 
         Args:
             api_key (str): The API key for authenticating with the Thesis API.
             base_url (str, optional): The base URL for the Thesis API. Defaults to "https://app-be.thesis.io".
-            user_agent (str, optional): Custom user agent. Defaults to "thesis-py {version}".
         """
 
         self.base_url = base_url
