@@ -1,0 +1,35 @@
+from setuptools import find_packages, setup
+
+setup(
+    name="thesis_py",
+    version="1.0.0",
+    description="Python SDK for Thesis APIs.",
+    long_description_content_type="text/markdown",
+    long_description=open("README.md").read(),
+    author="Oraichain Labs",
+    author_email="duc@orai.io",
+    package_data={"thesis_py": ["py.typed"]},
+    url="https://github.com/oraichain/thesis-py",
+    packages=find_packages(),
+    install_requires=[
+        "requests",
+        "typing-extensions",
+        "openai",
+        "pydantic",
+        "httpx",
+        "httpcore",
+        "python-dotenv",
+        "litellm",
+    ],
+    classifiers=[
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: GNU General Public License v3.0",
+        "Typing :: Typed",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+    ],
+)

@@ -1,0 +1,26 @@
+[project]
+name = "thesis-py"
+version = "1.0.0"
+description = "Python SDK for Thesis.io APIs."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "GNU General Public License v3.0" }
+authors = [{ name = "Oraichain Labs", email = "duc@orai.io" }]
+dependencies = [
+    "requests>=2.32.3",
+    "typing-extensions>=4.12.2",
+    "openai>=1.48",
+    "pydantic>=2.10.6",
+    "httpx>=0.28.1",
+    "httpcore>=1.0.9",
+    "python-dotenv>=1.0.1",
+    "litellm @ git+https://github.com/oraichain/litellm.git@fb07a1b6b07c0ae636d6affedef13672b209219c",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.0.0",
+    "pytest-cov>=6.2.1",
+    "pytest-mock>=3.14.1",
+]
