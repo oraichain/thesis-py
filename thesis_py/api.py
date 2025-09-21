@@ -39,8 +39,8 @@ class Thesis:
 
         Args:
             api_key (str): The API key for authenticating with the Thesis API.
-            base_url (str, optional): The base URL for the Thesis API. Defaults to "https://api.exa.ai".
-            user_agent (str, optional): Custom user agent. Defaults to "exa-py {version}".
+            base_url (str, optional): The base URL for the Thesis API. Defaults to "https://app-be.thesis.io".
+            user_agent (str, optional): Custom user agent. Defaults to "thesis-py {version}".
         """
 
         self.base_url = base_url

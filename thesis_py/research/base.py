@@ -144,7 +144,7 @@ class ResearchBaseClient:
         params: Optional[Dict[str, Any]] = None,
         headers: Optional[Dict[str, str]] = None,
     ):
-        """Send a request to the Exa API, optionally streaming if data['stream'] is True.
+        """Send a request to the Thesis.io API, optionally streaming if data['stream'] is True.
 
         Args:
             endpoint (str): The API endpoint (path).
