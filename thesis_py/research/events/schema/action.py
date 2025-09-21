@@ -84,12 +84,6 @@ class ActionType(str, Enum):
 
     CHANGE_AGENT_STATE = 'change_agent_state'
 
-    PUSH = 'push'
-    """Push a branch to github."""
-
-    SEND_PR = 'send_pr'
-    """Send a PR to github."""
-
     RECALL = 'recall'
     """Retrieves content from a user workspace, microagent, or other source."""
 
