@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "thesis-py"
-version = "1.0.0"
+version = "1.0.1"
 description = "Python SDK for Thesis.io APIs."
 readme = "README.md"
 requires-python = ">=3.9"
@@ -18,7 +18,7 @@ dependencies = [
     "httpx>=0.28.1",
     "httpcore>=1.0.9",
     "python-dotenv>=1.0.1",
-    "litellm>=1.77.2",
+    "litellm",
 ]
 
 [dependency-groups]
