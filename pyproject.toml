@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "thesis-py"
 version = "1.0.0"
@@ -14,7 +18,7 @@ dependencies = [
     "httpx>=0.28.1",
     "httpcore>=1.0.9",
     "python-dotenv>=1.0.1",
-    "litellm @ git+https://github.com/oraichain/litellm.git@fb07a1b6b07c0ae636d6affedef13672b209219c",
+    "litellm>=1.77.2",
 ]
 
 [dependency-groups]
@@ -23,4 +27,8 @@ dev = [
     "pytest-asyncio>=1.0.0",
     "pytest-cov>=6.2.1",
     "pytest-mock>=3.14.1",
+    "setuptools>=80.9.0",
 ]
+
+[tool.setuptools.packages.find]
+include = ["thesis_py*"]

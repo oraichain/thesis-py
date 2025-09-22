@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="thesis_py",
+    name="thesis-py",
     version="1.0.0",
     description="Python SDK for Thesis APIs.",
     long_description_content_type="text/markdown",
