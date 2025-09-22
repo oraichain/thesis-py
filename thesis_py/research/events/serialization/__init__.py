@@ -1,7 +1,7 @@
 from thesis_py.research.events.serialization.action import (
     action_from_dict,
 )
-from thesis_py.research.events.serialization.event import (
+from thesis_py.research.events.serialization.event_utils import (
     event_from_dict,
     event_to_dict,
     event_to_trajectory,

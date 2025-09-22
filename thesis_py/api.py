@@ -20,6 +20,9 @@ from thesis_py.api_schema import (
     CreateNewConversationIntegrationRequest,
     ConversationDetailResponse,
     JoinConversationIntegrationRequest,
+    SpaceListResponse,
+    SpaceDetailResponse,
+    SpaceSectionsResponse,
 )
 from thesis_py.research.events.event import Event
 from thesis_py.research.base import ResearchBaseClient
@@ -44,6 +47,7 @@ class Thesis:
         self.base_url = base_url
         self.client = ResearchBaseClient(api_key=api_key, base_url=base_url)
 
+    # Conversation APIs
     def create_conversation(
         self,
         request: CreateNewConversationIntegrationRequest,
@@ -57,14 +61,13 @@ class Thesis:
             Conversation: The response containing the conversation id.
         """
         data = request.model_dump_json()
-        print("create_conversation data: ", data)
         response = self.client.request(
             method="POST",
             endpoint="/conversations",
             data=data,
         )
-        if response.status_code != 200:
-            raise ValueError(f"❌ Error reading response: {response.text}")
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
 
         return ConversationCreateResponse(**response.json())
 
@@ -78,8 +81,8 @@ class Thesis:
             endpoint="/conversations/create-conversation",
             data=request.model_dump_json(),
         )
-        if response.status_code != 200:
-            raise ValueError(f"❌ Error reading response: {response.text}")
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
 
         return ConversationCreateResponse(**response.json())
 
@@ -91,8 +94,8 @@ class Thesis:
             method="GET",
             endpoint=f"/conversations/{conversation_id}",
         )
-        if response.status_code != 200:
-            raise ValueError(f"❌ Error reading response: {response.text}")
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
         return ConversationDetailResponse(**response.json())
 
     async def get_conversation_by_id_async(
@@ -103,43 +106,9 @@ class Thesis:
             method="GET",
             endpoint=f"/conversations/{conversation_id}",
         )
-        if response.status_code != 200:
-            raise ValueError(f"❌ Error reading response: {response.text}")
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
         return ConversationDetailResponse(**response.json())
-
-    def get_conversations(
-        self,
-        limit: Optional[int] = None,
-        offset: Optional[int] = None,
-    ) -> List[ConversationDetailResponse]:
-        response = self.client.request(
-            method="GET",
-            endpoint="/conversations",
-            params=build_pagination_params(limit, offset),
-        )
-        if response.status_code != 200:
-            raise ValueError(f"❌ Error reading response: {response.text}")
-        return [
-            ConversationDetailResponse(**conversation)
-            for conversation in response.json()
-        ]
-
-    async def get_conversations_async(
-        self,
-        limit: Optional[int] = None,
-        offset: Optional[int] = None,
-    ) -> List[ConversationDetailResponse]:
-        response = await self.client.async_request(
-            method="GET",
-            endpoint="/conversations",
-            params=build_pagination_params(limit, offset),
-        )
-        if response.status_code != 200:
-            raise ValueError(f"❌ Error reading response: {response.text}")
-        return [
-            ConversationDetailResponse(**conversation)
-            for conversation in response.json()
-        ]
 
     async def join_conversation(
         self,
@@ -149,9 +118,10 @@ class Thesis:
             response = await self.client.async_request(
                 method="POST",
                 endpoint="/conversations/join-conversation",
-                data=request.model_dump_json(),
+                data=request.model_dump(),
+                params={"stream": "true"},
             )
-            if response.status_code != 200:
+            if response.status_code != 200 and response.status_code != 201:
                 error_text = await response.aread()
                 raise ValueError(f"❌ Error reading response: {error_text.decode()}")
 
@@ -165,3 +135,80 @@ class Thesis:
             print("⏰ Request timed out")
         except Exception as e:
             print(f"❌ Unexpected error: {e}")
+
+    # Space APIs
+    def get_spaces(
+        self,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
+    ) -> SpaceListResponse:
+        response = self.client.request(
+            method="GET",
+            endpoint="/spaces",
+            params=build_pagination_params(limit, offset),
+        )
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
+        return SpaceListResponse(**response.json())
+
+    async def get_spaces_async(
+        self,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
+    ) -> SpaceListResponse:
+        response = await self.client.async_request(
+            method="GET",
+            endpoint="/spaces",
+            params=build_pagination_params(limit, offset),
+        )
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
+        return SpaceListResponse(**response.json())
+
+    def get_space_by_id(
+        self,
+        space_id: str,
+    ) -> SpaceDetailResponse:
+        response = self.client.request(
+            method="GET",
+            endpoint=f"/spaces/{space_id}",
+        )
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
+        return SpaceDetailResponse(**response.json())
+
+    async def get_space_by_id_async(
+        self,
+        space_id: str,
+    ) -> SpaceDetailResponse:
+        response = await self.client.async_request(
+            method="GET",
+            endpoint=f"/spaces/{space_id}",
+        )
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
+        return SpaceDetailResponse(**response.json())
+
+    def get_space_sections(
+        self,
+        space_id: str,
+    ) -> SpaceSectionsResponse:
+        response = self.client.request(
+            method="GET",
+            endpoint=f"/spaces/{space_id}/sections",
+        )
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
+        return SpaceSectionsResponse(**response.json())
+
+    async def get_space_sections_async(
+        self,
+        space_id: str,
+    ) -> SpaceSectionsResponse:
+        response = await self.client.async_request(
+            method="GET",
+            endpoint=f"/spaces/{space_id}/sections",
+        )
+        if response.status_code != 200 and response.status_code != 201:
+            raise requests.HTTPError(response=response)
+        return SpaceSectionsResponse(**response.json())

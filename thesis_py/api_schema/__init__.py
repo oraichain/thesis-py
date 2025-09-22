@@ -1,4 +1,27 @@
-from .conversations import ConversationCreateResponse, CreateNewConversationIntegrationRequest, CreateChatConversationIntegrationRequest, CreateDeepResearchConversationIntegrationRequest, JoinConversationIntegrationRequest, ConversationDetailResponse, ResearchMode
+from .conversations import (
+    ConversationCreateResponse,
+    CreateNewConversationIntegrationRequest,
+    CreateChatConversationIntegrationRequest,
+    CreateDeepResearchConversationIntegrationRequest,
+    JoinConversationIntegrationRequest,
+    ConversationDetailResponse,
+    ResearchMode,
+)
+from .spaces import (
+    SpaceListResponse,
+    SpaceDetailResponse,
+    Space,
+    User,
+    SpaceDetail,
+    SpaceErrorResponse,
+    SpaceListItem,
+    SpaceSection,
+    SpaceSectionsResponse,
+    TelegramGroup,
+    TelegramGroupDetail,
+    Member,
+    PaginationInfo,
+)
 
 __all__ = [
     "ConversationCreateResponse",
@@ -8,4 +31,17 @@ __all__ = [
     "JoinConversationIntegrationRequest",
     "ConversationDetailResponse",
     "ResearchMode",
+    "SpaceListResponse",
+    "User",
+    "SpaceDetailResponse",
+    "Space",
+    "SpaceErrorResponse",
+    "SpaceListItem",
+    "SpaceSection",
+    "SpaceSectionsResponse",
+    "TelegramGroup",
+    "TelegramGroupDetail",
+    "Member",
+    "PaginationInfo",
+    "SpaceDetail",
 ]

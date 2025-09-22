@@ -7,6 +7,7 @@ from thesis_py.research.events.observation import (
     NullObservation,
     Observation,
 )
+from thesis_py.research.events.serialization.event_utils import event_from_dict
 
 
 def get_pairs_from_events(events: list[Event]) -> list[tuple[Action, Observation]]:
@@ -16,12 +17,6 @@ def get_pairs_from_events(events: list[Event]) -> list[tuple[Action, Observation
     tuples: list[tuple[Action, Observation]] = []
     action_map: dict[int, Action] = {}
     observation_map: dict[int, Observation] = {}
-
-    # runnable actions are set as cause of observations
-    # (MessageAction, NullObservation) for source=USER
-    # (MessageAction, NullObservation) for source=AGENT
-    # (other_action?, NullObservation)
-    # (NullAction, CmdOutputObservation) background CmdOutputObservations
 
     for event in events:
         if event.id is None or event.id == -1:
@@ -58,3 +53,6 @@ def get_pairs_from_events(events: list[Event]) -> list[tuple[Action, Observation
             tuples.append((NullAction(), observation))
 
     return tuples.copy()
+
+def from_raw_events_to_pairs(events: list[dict]) -> list[tuple[Action, Observation]]:
+    return get_pairs_from_events([event_from_dict(event) for event in events])

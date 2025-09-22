@@ -9,7 +9,6 @@ from pydantic import BaseModel
 from thesis_py.research.events import Event, EventSource
 from thesis_py.research.events.serialization.action import action_from_dict
 from thesis_py.research.events.serialization.observation import observation_from_dict
-from thesis_py.research.events.serialization.utils import remove_fields
 from thesis_py.research.events.tool import ToolCallMetadata
 from thesis_py.llm.metrics import Cost, Metrics, ResponseLatency, TokenUsage
 import logging as logger
@@ -51,8 +50,6 @@ DELETE_FROM_TRAJECTORY_EXTRAS_AND_SCREENSHOTS = DELETE_FROM_TRAJECTORY_EXTRAS | 
 }
 
 
-
-
 def _convert_dict_to_pydantic(
     data: dict | Any, model_class: type[BaseModel]
 ) -> BaseModel:
@@ -89,6 +86,7 @@ def _convert_dict_to_pydantic(
             ]
 
     return model_class(**data)
+
 
 def event_from_dict(data: dict[str, Any]) -> "Event":
     evt: Event
@@ -205,7 +203,7 @@ def event_to_dict(event: "Event") -> dict:
 def event_to_trajectory(event: "Event", include_screenshots: bool = False) -> dict:
     d = event_to_dict(event)
     if "extras" in d:
-        remove_fields(
+        _remove_fields(
             d["extras"],
             (
                 DELETE_FROM_TRAJECTORY_EXTRAS
@@ -228,3 +226,25 @@ def truncate_content(content: str, max_chars: int | None = None) -> str:
         + "\n[... Observation truncated due to length ...]\n"
         + content[-half:]
     )
+
+
+def _remove_fields(obj: dict | list | tuple, fields: set[str]) -> None:
+    """Remove fields from an object.
+
+    Parameters:
+    - obj: The dictionary, or list of dictionaries to remove fields from
+    - fields (set[str]): A set of field names to remove from the object
+    """
+    if isinstance(obj, dict):
+        for field in fields:
+            if field in obj:
+                del obj[field]
+        for _, value in obj.items():
+            _remove_fields(value, fields)
+    elif isinstance(obj, (list, tuple)):
+        for item in obj:
+            _remove_fields(item, fields)
+    if hasattr(obj, "__dataclass_fields__"):
+        raise ValueError(
+            "Object must not contain dataclass, consider converting to dict first"
+        )

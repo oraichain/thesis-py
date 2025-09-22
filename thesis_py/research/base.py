@@ -162,11 +162,15 @@ class ResearchBaseClient:
         if headers:
             request_headers.update(headers)
 
+        dispatch_url = self.complete_base_url + endpoint
+        if isinstance(data, dict):
+            data = json.dumps(data)
+
         if method.upper() == "GET":
             if needs_streaming:
                 request = httpx.Request(
                     "GET",
-                    self.base_url + endpoint,
+                    dispatch_url,
                     params=params,
                     headers=request_headers,
                 )
@@ -174,18 +178,18 @@ class ResearchBaseClient:
                 return res
             else:
                 res = await self.client.get(
-                    self.base_url + endpoint, params=params, headers=request_headers
+                    dispatch_url, params=params, headers=request_headers
                 )
         elif method.upper() == "POST":
             if needs_streaming:
                 request = httpx.Request(
-                    "POST", self.base_url + endpoint, json=data, headers=request_headers
+                    "POST", dispatch_url, data=data, headers=request_headers
                 )
                 res = await self.client.send(request, stream=True)
                 return res
             else:
                 res = await self.client.post(
-                    self.base_url + endpoint, json=data, headers=request_headers
+                    dispatch_url, data=data, headers=request_headers
                 )
         else:
             raise ValueError(f"Unsupported HTTP method: {method}")
