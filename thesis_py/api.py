@@ -60,7 +60,7 @@ class Thesis:
         print("create_conversation data: ", data)
         response = self.client.request(
             method="POST",
-            endpoint="/conversations/create-conversation",
+            endpoint="/conversations",
             data=data,
         )
         if response.status_code != 200:

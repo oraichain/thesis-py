@@ -89,20 +89,12 @@ class ResearchBaseClient:
         request_headers = {**self.headers}
         if headers:
             request_headers.update(headers)
-            
-        print(f"request_headers: {request_headers}")
-        print(f"json_data: {json_data}")
-        print(f"params: {params}")
-        print(f"endpoint: {endpoint}")
-        print(f"method: {method}")
-        print(f"needs_streaming: {needs_streaming}")
-        print(f"self.complete_base_url: {self.complete_base_url}")
-        print(f"self.base_url: {self.base_url}")
-            
+
+        dispatch_url = self.complete_base_url + endpoint
         if method.upper() == "GET":
             if needs_streaming:
                 res = requests.get(
-                    self.complete_base_url + endpoint,
+                    dispatch_url,
                     headers=request_headers,
                     params=params,
                     stream=True,
@@ -110,14 +102,14 @@ class ResearchBaseClient:
                 return res
             else:
                 res = requests.get(
-                    self.complete_base_url + endpoint,
+                    dispatch_url,
                     headers=request_headers,
                     params=params,
                 )
         elif method.upper() == "POST":
             if needs_streaming:
                 res = requests.post(
-                    self.complete_base_url + endpoint,
+                    dispatch_url,
                     data=json_data,
                     headers=request_headers,
                     stream=True,
@@ -125,7 +117,7 @@ class ResearchBaseClient:
                 return res
             else:
                 res = requests.post(
-                    self.base_url + endpoint, data=json_data, headers=request_headers
+                    dispatch_url, data=json_data, headers=request_headers
                 )
         else:
             raise ValueError(f"Unsupported HTTP method: {method}")
