@@ -78,7 +78,7 @@ class Thesis:
 
         response = await self.client.async_request(
             method="POST",
-            endpoint="/conversations/create-conversation",
+            endpoint="/conversations",
             data=request.model_dump_json(),
         )
         if response.status_code != 200 and response.status_code != 201:
