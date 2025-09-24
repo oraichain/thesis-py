@@ -54,7 +54,9 @@ def main():
         # Print new events from last_printed_index + 1 onward
         new_events = events[last_printed_index + 1 :]
         if new_events:
-            print("-" * 200)
+            print()
+            print("-" * 50)
+            print()
             for event in new_events:
                 print(event)
             last_printed_index = len(events) - 1
