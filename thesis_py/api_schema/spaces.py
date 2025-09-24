@@ -332,6 +332,7 @@ class SpaceDetailResponse(BaseModel):
 class SpaceSection(BaseModel):
     id: str = Field(description="Unique section identifier", example="555")
     spaceId: str = Field(description="Space identifier", example="724")
+    conversationId: Optional[str] = Field(description="Conversation ID", example="abc123", default=None)
     name: Optional[str] = Field(
         description="Section name", default=None, example="Overview"
     )
@@ -341,7 +342,6 @@ class SpaceSection(BaseModel):
     prompt: Optional[str] = Field(
         description="Section prompt", default=None, example="Create a chart..."
     )
-    conversationId: str = Field(description="Conversation ID", example="abc123")
     outputType: Optional[str] = Field(
         description="Output type", default=None, example="bar_chart"
     )

@@ -10,7 +10,7 @@ if not THESIS_API_KEY:
 
 thesis = Thesis(THESIS_API_KEY)
 
-response = thesis.get_conversation_by_id("b3052a322b5b4149a4c46a02584e2dbb")
+response = thesis.get_conversation_by_id(os.environ.get("THESIS_CONVERSATION_ID"))
 
 pairs = from_raw_events_to_pairs(response.events[:2])
 
