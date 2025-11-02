@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="thesis-py",
-    version="1.0.0",
+    version="1.0.3",
     description="Python SDK for Thesis APIs.",
     long_description_content_type="text/markdown",
     long_description=open("README.md").read(),
@@ -24,7 +24,7 @@ setup(
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: GNU General Public License v3.0",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Typing :: Typed",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
