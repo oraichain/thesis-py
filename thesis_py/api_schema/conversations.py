@@ -179,3 +179,20 @@ class JoinConversationIntegrationRequest(BaseModel):
         self, research_mode: ResearchMode | None, _info
     ) -> str | None:
         return research_mode.value if research_mode else None
+    
+class ListConversationIntegrationRequest(BaseModel):
+    conversation_id: str | None = Field(
+        None,
+        description='ID of the existing conversation to join',
+        example='conv_abc123def456',
+    )
+    latest_event_id: int | None = Field(
+        None,
+        description="ID of the latest event to resume from",
+        example=123,
+    )
+    x_device_id: str | None = Field(
+        None,
+        description="Device ID to use for the conversation",
+        example="123",
+    )

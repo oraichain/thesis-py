@@ -11,11 +11,11 @@ if not THESIS_API_KEY:
 thesis = Thesis(THESIS_API_KEY)
 
 response = thesis.get_spaces()
-print(response)
+# print(response)
 
-first_space_id = response.data[0].spaceId
+first_space_id = response.data[1].spaceId
 print(first_space_id)
 response = thesis.get_space_by_id(first_space_id)
-print(response.data)
+# print(response.data)
 sections = thesis.get_space_sections(first_space_id)
 print(sections.data)

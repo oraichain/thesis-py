@@ -27,6 +27,7 @@ from thesis_py.api_schema import (
 from thesis_py.research.events.event import Event
 from thesis_py.research.base import ResearchBaseClient
 from thesis_py.research.utils import async_stream_sse_events, build_pagination_params
+from thesis_py.api_schema.conversations import ListConversationIntegrationRequest
 
 
 class Thesis:
@@ -118,6 +119,32 @@ class Thesis:
             response = await self.client.async_request(
                 method="POST",
                 endpoint="/conversations/join-conversation",
+                data=request.model_dump(),
+                params={"stream": "true"},
+            )
+            if response.status_code != 200 and response.status_code != 201:
+                error_text = await response.aread()
+                raise ValueError(f"❌ Error reading response: {error_text.decode()}")
+
+            async for event in async_stream_sse_events(response):
+                yield event
+
+        except httpx.ConnectError:
+            print(f"❌ Failed to connect to {self.base_url}")
+            print("Make sure your FastAPI server is running!")
+        except httpx.TimeoutException:
+            print("⏰ Request timed out")
+        except Exception as e:
+            print(f"❌ Unexpected error: {e}")
+            
+    async def listen_conversation(
+        self,
+        request: ListConversationIntegrationRequest,
+    ) -> AsyncGenerator[Event, None]:
+        try:
+            response = await self.client.async_request(
+                method="POST",
+                endpoint="/conversations/listen-conversation",
                 data=request.model_dump(),
                 params={"stream": "true"},
             )
